@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import visibilityIcon from "..//assets/svg/visibilityIcon.svg";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
@@ -28,6 +29,11 @@ const SignUp = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    if (!name || !email || !password) {
+      toast.error("All fields are required.");
+      // return;
+    }
+
     try {
       const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(
@@ -47,7 +53,7 @@ const SignUp = () => {
 
       navigate("/");
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
   return (
