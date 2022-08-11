@@ -1,9 +1,14 @@
-import { getAuth } from "firebase/auth";
+import { getAuth, updateEmail, updateProfile } from "firebase/auth";
+import { doc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import { db } from "../firebase.config";
 
 const Profile = () => {
   const auth = getAuth();
+  const [changeDetails, setChangeDetails] = useState(false);
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
@@ -15,6 +20,31 @@ const Profile = () => {
     navigate("/");
   };
 
+  const onSubmit = async () => {
+    try {
+      if (auth.currentUser.displayName !== name) {
+        //Update display name in firebase
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+        //Update email in firebase
+        const useRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(useRef, {
+          name,
+        });
+      }
+    } catch (error) {
+      toast.error("Invalid input");
+    }
+  };
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
   return (
     <div className="profile">
       <header className="profileHeader">
@@ -23,6 +53,40 @@ const Profile = () => {
           Logout
         </button>
       </header>
+      <main>
+        <div className="profileDetailsHeader">
+          <p className="profileDetailsText">Personal Details</p>
+          <p
+            className="changePersonalDetails"
+            onClick={() => {
+              changeDetails && onSubmit();
+              setChangeDetails((prevState) => !prevState);
+            }}
+          >
+            {changeDetails ? "done" : "change"}
+          </p>
+        </div>
+        <div className="profileCard">
+          <form>
+            <input
+              type="text"
+              id="name"
+              className={!changeDetails ? "profileName" : "profileNameActive"}
+              disable={!changeDetails}
+              value={name}
+              onChange={onChange}
+            />
+            <input
+              type="text"
+              id="email"
+              className={!changeDetails ? "profileEmail" : "profileEmailActive"}
+              disable={!changeDetails}
+              value={email}
+              onChange={onChange}
+            />
+          </form>
+        </div>
+      </main>
     </div>
   );
 };
