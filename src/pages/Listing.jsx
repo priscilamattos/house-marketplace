@@ -11,7 +11,7 @@ import shareIcon from "../assets/svg/shareIcon.svg";
 import Spinner from "../components/Spinner";
 import { db } from "../firebase.config";
 
-import "swiper/swiper-bundle.css";
+// import "swiper/swiper-bundle.css";
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
