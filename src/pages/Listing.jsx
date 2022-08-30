@@ -38,7 +38,6 @@ function Listing() {
 
     fetchListing();
   }, [navigate, params.listingId]);
-  console.log("🚀 ~ file: Listing.jsx ~ line 49 ~ Listing ~ listing", listing);
 
   if (loading) {
     return <Spinner />;
@@ -48,7 +47,7 @@ function Listing() {
       <Helmet>
         <title>{listing.name}</title>
       </Helmet>
-      <div style={{ width: "100%", height: "700" }}>
+      <div style={{ width: "100%", height: "500" }}>
         <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
           {listing.imgUrls?.map((url) => (
             <SwiperSlide key={url}>
