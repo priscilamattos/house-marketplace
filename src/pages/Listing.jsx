@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import SwiperCore, { A11y, Navigation, Pagination, Scrollbar } from "swiper";
+import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import shareIcon from "../assets/svg/shareIcon.svg";
 import Spinner from "../components/Spinner";
 import { db } from "../firebase.config";
 
-// import "swiper/swiper-bundle.css";
-
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
+import "./listing.css";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
 
 function Listing() {
   const [listing, setListing] = useState(null);
@@ -47,20 +48,15 @@ function Listing() {
       <Helmet>
         <title>{listing.name}</title>
       </Helmet>
-      <Swiper slidesPerView={1} pagination={{ clickable: true }}>
-        {listing.imgUrls?.map((url, index) => (
-          <SwiperSlide key={index}>
-            <div
-              style={{
-                background: `url(${listing.imgUrls[index]}) center no-repeat`,
-                backgroundSize: "cover",
-              }}
-              className="swiperSlideDiv"
-            ></div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
+      <div style={{ width: "100%", height: "700" }}>
+        <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+          {listing.imgUrls?.map((url) => (
+            <SwiperSlide key={url}>
+              <img src={url} alt="test" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
       <div
         className="shareIconDiv"
         onClick={() => {
@@ -73,9 +69,7 @@ function Listing() {
       >
         <img src={shareIcon} alt="" />
       </div>
-
       {shareLinkCopied && <p className="linkCopied">Link Copied!</p>}
-
       <div className="listingDetails">
         <p className="listingName">
           {listing.name} - $

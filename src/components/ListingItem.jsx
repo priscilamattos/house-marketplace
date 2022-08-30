@@ -5,17 +5,23 @@ import bedIcon from "../assets/svg/bedIcon.svg";
 import { ReactComponent as DeleteIcon } from "../assets/svg/deleteIcon.svg";
 
 const ListingItem = ({ listing, id, onDelete }) => {
+  console.log(
+    "🚀 ~ file: ListingItem.jsx ~ line 8 ~ ListingItem ~ listing",
+    listing
+  );
   return (
     <li className="categoryListing">
       <Link
         to={`/category/${listing.type}/${id}`}
         className="categoryListingLink"
       >
-        <img
-          src={listing.imgURLs[0]}
-          alt={listing.name}
-          className="categoryListingImg"
-        />
+        {listing.imgURLs && listing.imgURLs.lenght ? (
+          <img
+            src={listing?.imgURLs[0]}
+            alt={listing.name}
+            className="categoryListingImg"
+          />
+        ) : null}
         <div className="categoryListingDetails">
           <p className="categoryListinLocation">{listing.location}</p>
           <p className="categoryListingName">{listing.name}</p>
