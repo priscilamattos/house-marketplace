@@ -6,10 +6,6 @@ import { ReactComponent as DeleteIcon } from "../assets/svg/deleteIcon.svg";
 import { ReactComponent as EditIcon } from "../assets/svg/editIcon.svg";
 
 const ListingItem = ({ listing, id, onDelete, onEdit }) => {
-  console.log(
-    "🚀 ~ file: ListingItem.jsx ~ line 8 ~ ListingItem ~ listing",
-    listing
-  );
   return (
     <li className="categoryListing">
       <Link

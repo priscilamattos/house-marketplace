@@ -15,7 +15,6 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 const Slider = () => {
   const [loading, setLoading] = useState(true);
   const [listings, setListings] = useState(null);
-  console.log("🚀 ~ file: Slider.jsx ~ line 18 ~ Slider ~ listings", listings);
 
   const navigate = useNavigate();
 
